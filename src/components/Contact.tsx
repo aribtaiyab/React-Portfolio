@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Mail, Linkedin, Github, Instagram } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import { SectionTitle } from './SectionTitle';
 
-const containerVariants = {
+const containerVariants: import('framer-motion').Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -13,7 +14,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: import('framer-motion').Variants = {
   hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
   visible: {
     opacity: 1,
@@ -30,7 +31,7 @@ const socialLinks = [
   { name: 'arib_x21', url: 'https://instagram.com/arib_x21', icon: Instagram },
 ];
 
-export function Contact() {
+export const Contact = memo(function Contact() {
   return (
     <section id="contact" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background overflow-hidden">
       {/* Background ambient lighting */}
@@ -154,4 +155,4 @@ export function Contact() {
       </div>
     </section>
   );
-}
+});

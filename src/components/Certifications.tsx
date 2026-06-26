@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Award } from 'lucide-react';
 import { PremiumCard } from './PremiumCard';
@@ -30,7 +31,7 @@ const certificates = [
   { name: "JavaScript", image: jsCert },
 ];
 
-export function Certifications() {
+export const Certifications = memo(function Certifications() {
   return (
     <section id="certificates" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background">
       <div className="container mx-auto px-6 md:px-12">
@@ -117,4 +118,4 @@ export function Certifications() {
       </div>
     </section>
   );
-}
+});

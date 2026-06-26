@@ -1,9 +1,10 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { PremiumCard } from './PremiumCard';
 import { SectionTitle } from './SectionTitle';
 import aribimg from './aribimg.jpeg';
 
-const containerVariants = {
+const containerVariants: import('framer-motion').Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -13,7 +14,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: import('framer-motion').Variants = {
   hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
   visible: {
     opacity: 1,
@@ -32,7 +33,7 @@ const infoCards = [
   "Hackathon Enthusiast"
 ];
 
-export function About() {
+export const About = memo(function About() {
   return (
     <section id="about" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background overflow-hidden">
       {/* Background ambient lighting */}
@@ -139,4 +140,4 @@ export function About() {
       </div>
     </section>
   );
-}
+});

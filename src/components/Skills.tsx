@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { PremiumCard } from './PremiumCard';
 import { SectionTitle } from './SectionTitle';
@@ -51,7 +52,7 @@ const skillCategories = [
   }
 ];
 
-export function Skills() {
+export const Skills = memo(function Skills() {
   return (
     <section id="skills" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background">
       <div className="container mx-auto px-6 md:px-12">
@@ -120,4 +121,4 @@ export function Skills() {
       </div>
     </section>
   );
-}
+});

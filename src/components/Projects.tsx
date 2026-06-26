@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
 import { PremiumCard } from './PremiumCard';
@@ -69,7 +70,7 @@ const projects = [
   }
 ];
 
-export function Projects() {
+export const Projects = memo(function Projects() {
   return (
     <section id="projects" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background">
       {/* Background ambient lighting */}
@@ -162,4 +163,4 @@ export function Projects() {
       </div>
     </section>
   );
-}
+});
