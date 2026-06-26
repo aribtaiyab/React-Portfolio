@@ -101,7 +101,7 @@ export const Contact = memo(function Contact() {
                     type="text" 
                     id="name" 
                     className="w-full bg-[#050508] border border-white/10 p-3 md:p-4 rounded-xl text-primary text-sm focus:outline-none focus:border-accent-gold focus:shadow-[0_0_25px_rgba(212,175,55,0.15),inset_0_0_10px_rgba(212,175,55,0.05)] transition-all duration-300 placeholder:text-secondary/30 font-light"
-                    placeholder="John Doe"
+                    placeholder="Arib Taiyab"
                   />
                   <div className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-accent-gold/50 to-transparent opacity-0 group-focus-within/input:opacity-100 transition-opacity duration-300" />
                 </div>
@@ -112,7 +112,7 @@ export const Contact = memo(function Contact() {
                     type="email" 
                     id="email" 
                     className="w-full bg-[#050508] border border-white/10 p-3 md:p-4 rounded-xl text-primary text-sm focus:outline-none focus:border-accent-gold focus:shadow-[0_0_25px_rgba(212,175,55,0.15),inset_0_0_10px_rgba(212,175,55,0.05)] transition-all duration-300 placeholder:text-secondary/30 font-light"
-                    placeholder="john@example.com"
+                    placeholder="aribtayab@gmail.com"
                   />
                   <div className="absolute bottom-[2px] left-4 right-4 h-[1px] bg-gradient-to-r from-transparent via-accent-gold/50 to-transparent opacity-0 group-focus-within/input:opacity-100 transition-opacity duration-300" />
                 </div>
