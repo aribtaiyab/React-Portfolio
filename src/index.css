@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+    background-color: theme('colors.background');
+    color: theme('colors.primary');
+  }
+
+  body {
+    @apply min-h-screen overflow-x-hidden bg-background text-primary antialiased selection:bg-accent-gold selection:text-background;
+    font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+
+  a,
+  button,
+  input,
+  textarea,
+  select {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  a:focus-visible,
+  button:focus-visible,
+  input:focus-visible,
+  textarea:focus-visible,
+  select:focus-visible {
+    outline: 2px solid rgba(212, 175, 55, 0.8);
+    outline-offset: 2px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #020202;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background: rgba(212, 175, 55, 0.15);
+    transition: background 0.3s ease;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(212, 175, 55, 0.4);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-gold-gradient {
+    @apply bg-gradient-to-r from-accent-gold via-bright-gold to-accent-gold bg-clip-text text-transparent;
+  }
+
+  .text-liquid-gold {
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    background-image: linear-gradient(135deg, #f3d87a 0%, #d4af37 50%, #e8c96a 100%);
+  }
+
+  .luxury-glow {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.15);
+  }
+
+  .visual-connector {
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.03) 20%, rgba(212, 175, 55, 0.15) 50%, rgba(255, 255, 255, 0.03) 80%, transparent);
+  }
+
+  .glass-panel {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(12, 12, 14, 0.65);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+}
