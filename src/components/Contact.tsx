@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { Send, Mail, Linkedin, Github, Instagram } from 'lucide-react';
+import { Send, Mail } from 'lucide-react';
+import { FaLinkedin as Linkedin, FaGithub as Github, FaInstagram as Instagram } from 'react-icons/fa6';
 import { MagneticButton } from './MagneticButton';
 import { SectionTitle } from './SectionTitle';
 

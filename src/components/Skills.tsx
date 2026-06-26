@@ -34,7 +34,7 @@ const skillCategories = [
   },
   {
     title: "Backend",
-    iconSrc: "/icon-backend.png",
+    iconSrc: "/tech-stack.png",
     skills: ["Node.js", "Express", "MongoDB", "SQL"],
     glow: "rgba(59, 130, 246, 0.4)", // Blue
     borderColor: "border-accent-blue/30 hover:border-accent-blue/60",

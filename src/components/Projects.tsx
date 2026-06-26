@@ -1,6 +1,7 @@
 import { memo } from 'react';
 import { motion } from 'framer-motion';
-import { ExternalLink, Github } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
+import { FaGithub as Github } from 'react-icons/fa6';
 import { PremiumCard } from './PremiumCard';
 import { SectionTitle } from './SectionTitle';
 import image1 from './image1.png';

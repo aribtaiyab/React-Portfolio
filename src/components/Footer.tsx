@@ -1,4 +1,4 @@
-import { Github, Linkedin, Instagram } from 'lucide-react';
+import { FaGithub as Github, FaLinkedin as Linkedin, FaInstagram as Instagram } from 'react-icons/fa6';
 
 export function Footer() {
   return (
