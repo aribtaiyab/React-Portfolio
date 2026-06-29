@@ -8,28 +8,43 @@ export function BackgroundEffects() {
 
     let raf: number;
     let cx = 0, cy = 0, tx = 0, ty = 0;
+    let isScrolling = false;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
 
     const onMove = (e: MouseEvent) => {
-      // Max movement: 5px for gentle parallax
+      if (isScrolling) return;
       tx = (e.clientX / window.innerWidth - 0.5) * 10;
       ty = (e.clientY / window.innerHeight - 0.5) * 10;
     };
 
+    const onScroll = () => {
+      isScrolling = true;
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+      }, 150);
+    };
+
     const tick = () => {
-      cx += (tx - cx) * 0.05; 
-      cy += (ty - cy) * 0.05;
-      if (parallaxRef.current) {
-        parallaxRef.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+      if (!isScrolling) {
+        cx += (tx - cx) * 0.05; 
+        cy += (ty - cy) * 0.05;
+        if (parallaxRef.current) {
+          parallaxRef.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+        }
       }
       raf = requestAnimationFrame(tick);
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });
+    window.addEventListener('scroll', onScroll, { passive: true });
     raf = requestAnimationFrame(tick);
 
     return () => {
       window.removeEventListener('mousemove', onMove);
+      window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(raf);
+      clearTimeout(scrollTimeout);
     };
   }, []);
 
@@ -57,7 +72,7 @@ export function BackgroundEffects() {
       </div>
 
       {/* LAYER 3: Section ambient glow orbs */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-screen opacity-90">
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden mix-blend-screen opacity-90 will-change-transform" style={{ transform: 'translateZ(0)' }}>
         <div className="absolute left-1/2 top-[3%] w-[90vw] max-w-[1200px] aspect-square -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(212,175,55,0.06)_0%,transparent_60%)]" />
         <div className="absolute right-0 top-[20%] w-[80vw] max-w-[1000px] aspect-square translate-x-1/4 -translate-y-1/2 bg-[radial-gradient(circle,rgba(243,224,150,0.05)_0%,transparent_60%)]" />
         <div className="absolute left-0 top-[40%] w-[85vw] max-w-[1100px] aspect-square -translate-x-1/4 -translate-y-1/2 bg-[radial-gradient(circle,rgba(184,134,11,0.05)_0%,transparent_60%)]" />

@@ -1,8 +1,8 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export function LoadingScreen() {
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
@@ -10,13 +10,13 @@ export function LoadingScreen() {
     >
       {/* 1. Cinematic Global Background & Ambient Glow */}
       <div className="absolute inset-0 pointer-events-none">
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1 }}
           className="absolute left-1/2 top-1/2 w-[80vw] h-[80vw] max-w-[800px] max-h-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(212,175,55,0.06)_0%,transparent_60%)] mix-blend-screen" 
         />
-        <motion.div 
+        <m.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5, delay: 0.2 }}
@@ -27,17 +27,17 @@ export function LoadingScreen() {
 
       <div className="relative z-10 flex flex-col items-center text-center">
         {/* WELCOME TO */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
           className="text-[10px] md:text-[11px] font-sans font-light tracking-[0.4em] uppercase text-[#F3E5AB] opacity-80 mb-4 ml-[0.4em]"
         >
           Welcome To
-        </motion.div>
+        </m.div>
 
         {/* ARIB TAIYAB */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20, filter: 'blur(8px)' }}
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
@@ -48,26 +48,26 @@ export function LoadingScreen() {
           </span>
           
           {/* Light Sweep */}
-          <motion.div
+          <m.div
             initial={{ left: '-100%' }}
             animate={{ left: '200%' }}
             transition={{ duration: 1.5, ease: 'easeInOut', delay: 0.8 }}
             className="absolute top-0 bottom-0 w-[50%] bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] mix-blend-overlay z-20 pointer-events-none"
           />
-        </motion.div>
+        </m.div>
 
         {/* PORTFOLIO */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
           className="text-[13px] md:text-[14px] font-light tracking-[0.3em] uppercase text-[#E0E0E0] mb-8 ml-[0.3em]"
         >
           Portfolio
-        </motion.div>
+        </m.div>
 
         {/* Expanding Gold Line */}
-        <motion.div
+        <m.div
           initial={{ width: "0%" }}
           animate={{ width: "100px" }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.9 }}
@@ -77,6 +77,6 @@ export function LoadingScreen() {
 
       {/* Edge Vignette */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_50%_50%,transparent_30%,rgba(5,5,5,0.9)_100%)] pointer-events-none z-0" />
-    </motion.div>
+    </m.div>
   );
 }

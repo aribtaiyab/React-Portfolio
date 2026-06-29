@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { m, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import heropageImg from './heropage.png';
@@ -35,9 +35,9 @@ export const Hero = memo(function Hero() {
       
       {/* Background Enhancements */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <motion.div style={{ y: y1 }} className="absolute left-1/4 top-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-gold/5 blur-[120px] will-change-transform md:h-[600px] md:w-[600px] md:blur-[150px] lg:h-[800px] lg:w-[800px] mix-blend-screen" />
+        <m.div style={{ y: y1 }} className="absolute left-1/4 top-1/3 h-[400px] w-[400px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-gold/5 blur-[120px] will-change-transform md:h-[600px] md:w-[600px] md:blur-[150px] lg:h-[800px] lg:w-[800px] mix-blend-screen" />
         <div className="absolute right-1/4 bottom-1/4 h-[300px] w-[300px] translate-x-1/3 translate-y-1/3 rounded-full bg-accent-gold/[0.03] blur-[100px] md:h-[500px] md:w-[500px] mix-blend-screen animate-[pulse-glow_8s_ease-in-out_infinite]" />
-        <motion.div style={{ y: y1 }} className="absolute left-1/4 top-1/3 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-gold/5 blur-[120px] will-change-transform md:h-[700px] md:w-[700px] md:blur-[150px] lg:h-[900px] lg:w-[900px] mix-blend-screen" />
+        <m.div style={{ y: y1 }} className="absolute left-1/4 top-1/3 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-gold/5 blur-[120px] will-change-transform md:h-[700px] md:w-[700px] md:blur-[150px] lg:h-[900px] lg:w-[900px] mix-blend-screen" />
         <div className="absolute right-1/4 bottom-1/4 h-[400px] w-[400px] translate-x-1/3 translate-y-1/3 rounded-full bg-accent-gold/[0.03] blur-[120px] md:h-[600px] md:w-[600px] mix-blend-screen animate-[pulse-glow_8s_ease-in-out_infinite]" />
         
         {/* Subtle animated gradient & Vignette */}
@@ -50,7 +50,7 @@ export const Hero = memo(function Hero() {
         {/* Soft ambient golden glow extending slightly between the text and image */}
         <div className="pointer-events-none absolute left-1/2 top-1/2 h-[70%] w-[70%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(ellipse_at_center,rgba(212,175,55,0.05)_0%,transparent_60%)] mix-blend-screen" />
 
-        <motion.div
+        <m.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
@@ -67,23 +67,23 @@ export const Hero = memo(function Hero() {
           <div className="pointer-events-none absolute inset-0 z-0 mix-blend-screen bg-[radial-gradient(circle_at_50%_50%,rgba(212,175,55,0.04),transparent_70%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 will-change-opacity" />
 
           <div className="relative z-10">
-            <motion.h1 variants={itemVariants} className="relative mb-3 text-4xl font-serif font-bold leading-[1.1] tracking-tight text-primary sm:text-5xl md:mb-4 md:text-6xl lg:text-7xl xl:text-8xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]">
+            <m.h1 variants={itemVariants} className="relative mb-3 text-4xl font-serif font-bold leading-[1.1] tracking-tight text-primary sm:text-5xl md:mb-4 md:text-6xl lg:text-7xl xl:text-8xl drop-shadow-[0_4px_10px_rgba(0,0,0,0.6)]">
               <span className="mb-1 block text-xl font-sans font-light uppercase tracking-[0.25em] text-[#FAFAFA] opacity-95 sm:text-2xl md:mb-2 md:text-3xl">I'm</span>
               <span className="relative block pb-2 text-gold-gradient drop-shadow-[0_0_25px_rgba(212,175,55,0.3)] tracking-tight font-extrabold z-20">
                 Arib Taiyab
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_10s_ease-in-out_infinite] pointer-events-none mix-blend-overlay" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
               </span>
-            </motion.h1>
+            </m.h1>
 
-            <motion.h2 variants={itemVariants} className="mb-6 text-lg font-light tracking-[0.05em] text-[#FAFAFA] opacity-100 sm:text-xl md:mb-8 md:text-2xl lg:text-3xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
+            <m.h2 variants={itemVariants} className="mb-6 text-lg font-light tracking-[0.05em] text-[#FAFAFA] opacity-100 sm:text-xl md:mb-8 md:text-2xl lg:text-3xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
               Full Stack Developer
-            </motion.h2>
+            </m.h2>
 
-            <motion.p variants={itemVariants} className="mb-8 max-w-[500px] text-balance text-[15px] font-light leading-[1.8] tracking-wide text-[#E5E7EB] sm:text-base md:mb-12 md:text-[17px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+            <m.p variants={itemVariants} className="mb-8 max-w-[500px] text-balance text-[15px] font-light leading-[1.8] tracking-wide text-[#E5E7EB] sm:text-base md:mb-12 md:text-[17px] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
               I am passionate about building modern web experiences, continuously improving as a developer. Focused on building clean, responsive, and impactful digital products.
-            </motion.p>
+            </m.p>
 
-            <motion.div variants={itemVariants} className="flex flex-wrap items-center gap-4 md:gap-6 relative z-30">
+            <m.div variants={itemVariants} className="flex flex-wrap items-center gap-4 md:gap-6 relative z-30">
               <MagneticButton 
                 href="#projects" 
                 variant="primary" 
@@ -95,11 +95,11 @@ export const Hero = memo(function Hero() {
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-gold/20 to-transparent -translate-x-full group-hover/btn:animate-[shine_1.5s_ease-in-out] pointer-events-none mix-blend-screen" />
               </MagneticButton>
-            </motion.div>
+            </m.div>
           </div>
-        </motion.div>
+        </m.div>
 
-        <motion.div
+        <m.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
@@ -109,7 +109,7 @@ export const Hero = memo(function Hero() {
           <div className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_65%)] blur-[80px] mix-blend-screen opacity-80 group-hover/heroimg:opacity-100 transition-opacity duration-700 md:blur-[120px]" />
           <div className="pointer-events-none absolute left-1/2 top-1/2 h-[90%] w-[90%] -translate-x-1/2 -translate-y-1/2 bg-[radial-gradient(circle,rgba(212,175,55,0.1)_0%,transparent_70%)] md:h-[80%] md:w-[80%]" />
 
-          <motion.div
+          <m.div
             className="relative flex h-full w-full items-center justify-center will-change-transform animate-[float-subtle_7s_ease-in-out_infinite]"
           >
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.05)_0%,transparent_60%)] mix-blend-screen pointer-events-none" />
@@ -129,8 +129,8 @@ export const Hero = memo(function Hero() {
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover/heroimg:animate-[shine_1.5s_ease-in-out] pointer-events-none z-20 mix-blend-overlay" />
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

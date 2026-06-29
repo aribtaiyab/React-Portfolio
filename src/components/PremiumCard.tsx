@@ -1,5 +1,5 @@
 import { memo, type ReactNode } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export const PremiumCard = memo(function PremiumCard({
   children,
@@ -15,7 +15,7 @@ export const PremiumCard = memo(function PremiumCard({
   innerGlow?: string;
 }) {
   return (
-    <motion.div
+    <m.div
       whileHover={{ y: -8, scale: 1.01 }}
       transition={{ type: 'spring', stiffness: 240, damping: 22 }}
       onClick={onClick}
@@ -46,6 +46,6 @@ export const PremiumCard = memo(function PremiumCard({
 
         {children}
       </div>
-    </motion.div>
+    </m.div>
   );
 });

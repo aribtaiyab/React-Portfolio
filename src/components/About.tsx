@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { SectionTitle } from './SectionTitle';
 import { GraduationCap, Layout, Code2, Lightbulb, Wrench, Trophy } from 'lucide-react';
 import aribimg from './aribimg.jpeg';
@@ -47,19 +47,19 @@ export const About = memo(function About() {
       <div className="absolute inset-0 opacity-[0.015] mix-blend-overlay pointer-events-none" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E")` }} />
 
       <div className="container mx-auto px-6 md:px-12 relative z-10">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={containerVariants}
           className="max-w-[1200px] mx-auto"
         >
-          <motion.div variants={itemVariants} className="mb-12">
+          <m.div variants={itemVariants} className="mb-12">
             <SectionTitle title="About Me" />
-          </motion.div>
+          </m.div>
 
           {/* Luxury Glass Layout Panel */}
-          <motion.div 
+          <m.div 
             variants={itemVariants}
             className="relative bg-[#0A0A0A]/80 backdrop-blur-3xl border border-[#D4AF37]/10 hover:border-[#D4AF37]/30 p-8 sm:p-12 md:p-20 rounded-[32px] shadow-[0_30px_80px_rgba(0,0,0,0.8),inset_0_2px_2px_rgba(255,255,255,0.05)] transition-all duration-700 overflow-hidden group"
           >
@@ -71,23 +71,23 @@ export const About = memo(function About() {
 
             <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-16 lg:gap-20 items-center relative z-10">
               <div className="order-2 lg:order-1 flex flex-col gap-10">
-                <motion.div variants={itemVariants} className="prose prose-invert max-w-none">
+                <m.div variants={itemVariants} className="prose prose-invert max-w-none">
                   <p className="text-[#E0E0E0] text-[16px] sm:text-[18px] md:text-[20px] leading-[2] md:leading-[2.2] text-balance font-light drop-shadow-md tracking-[0.02em]">
                     I am a <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FFF8D6] font-medium drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]">Computer Science Engineering student</span> passionate about web development and software engineering. I enjoy building responsive applications, learning modern technologies, and transforming ideas into <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] to-[#FFF8D6] font-medium drop-shadow-[0_0_12px_rgba(212,175,55,0.4)]">practical digital solutions</span>.
                   </p>
-                </motion.div>
+                </m.div>
                 
                 {/* Elegant Separator */}
-                <motion.div variants={itemVariants} className="flex items-center gap-6 w-full opacity-70 group-hover:opacity-100 transition-opacity duration-700">
+                <m.div variants={itemVariants} className="flex items-center gap-6 w-full opacity-70 group-hover:opacity-100 transition-opacity duration-700">
                   <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
                   <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] shadow-[0_0_15px_#D4AF37]" />
                   <div className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-[#D4AF37]/50 to-transparent" />
-                </motion.div>
+                </m.div>
 
                 {/* Premium Technology Chips */}
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
                   {infoCards.map((card, idx) => (
-                    <motion.div 
+                    <m.div 
                       variants={itemVariants}
                       key={idx}
                       className="group/chip relative flex items-center gap-3 p-4 bg-[#050505]/60 backdrop-blur-xl rounded-[16px] border border-[#D4AF37]/15 shadow-[0_4px_15px_rgba(0,0,0,0.5),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:border-[#D4AF37]/60 hover:shadow-[0_10px_30px_rgba(212,175,55,0.15),inset_0_1px_2px_rgba(212,175,55,0.2)] transition-all duration-500 hover:scale-[1.05] hover:-translate-y-1 cursor-default overflow-hidden"
@@ -101,13 +101,13 @@ export const About = memo(function About() {
                       <span className="relative z-10 text-[11px] sm:text-[12px] font-bold tracking-[0.1em] text-[#A1A1AA] group-hover/chip:text-[#F0F0F0] transition-colors duration-500 uppercase leading-snug drop-shadow-sm group-hover/chip:drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">
                         {card.text}
                       </span>
-                    </motion.div>
+                    </m.div>
                   ))}
                 </div>
               </div>
 
               {/* Right Side (Premium Portrait Card) */}
-              <motion.div 
+              <m.div 
                 variants={itemVariants}
                 className="relative w-full max-w-[300px] sm:max-w-[340px] lg:max-w-[400px] mx-auto order-1 lg:order-2 group/image cursor-pointer animate-[float-subtle_8s_ease-in-out_infinite] [perspective:1000px]"
               >
@@ -140,10 +140,10 @@ export const About = memo(function About() {
                    <div className="absolute inset-0 bg-gradient-to-t from-[#020202] via-transparent to-transparent opacity-60 pointer-events-none z-10" />
                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none z-10" />
                  </div>
-              </motion.div>
+              </m.div>
             </div>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

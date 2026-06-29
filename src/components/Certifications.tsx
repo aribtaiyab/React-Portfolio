@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ExternalLink, Award } from 'lucide-react';
 import cCert from './c certificate.jpeg';
 import cppCert from './c++ certificate.jpeg';
@@ -83,10 +83,10 @@ export const Certifications = memo(function Certifications() {
       <div className="container mx-auto px-6 md:px-12 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Section Title */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px 0px -100px 0px" }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="flex items-center gap-4 md:gap-6 w-full mb-10 md:mb-16 select-none group relative overflow-hidden"
           >
@@ -102,17 +102,17 @@ export const Certifications = memo(function Certifications() {
             <div className="relative flex-grow h-[1px] bg-gradient-to-r from-[#D4AF37]/60 via-[#D4AF37]/10 to-transparent overflow-hidden">
               <div className="absolute top-0 bottom-0 w-[50%] bg-gradient-to-r from-transparent via-[#FFF8D6] to-transparent opacity-50" style={{ animation: 'reflectionSweep 8s infinite' }} />
             </div>
-          </motion.div>
+          </m.div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {certificates.map((cert, idx) => (
-              <motion.div 
+              <m.div 
                 key={idx}
                 custom={idx} 
                 variants={cardVariants} 
                 initial="hidden" 
                 whileInView="visible" 
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "0px 0px -100px 0px" }}
                 className="card-3d-wrapper w-full h-full card-3d-float"
                 style={{ animationDelay: `${idx * 0.4}s` }}
               >
@@ -177,7 +177,7 @@ export const Certifications = memo(function Certifications() {
                     </a>
                   </div>
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
         </div>

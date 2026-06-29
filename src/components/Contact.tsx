@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Send, Mail } from 'lucide-react';
 import { FaLinkedin as Linkedin, FaGithub as Github, FaInstagram as Instagram } from 'react-icons/fa6';
 import { MagneticButton } from './MagneticButton';
@@ -40,30 +40,30 @@ export const Contact = memo(function Contact() {
       <div className="absolute bottom-[10%] right-[5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] rounded-full bg-soft-champagne/[0.03] blur-[120px] md:blur-[150px] pointer-events-none mix-blend-screen will-change-transform" />
 
       <div className="container mx-auto px-6 md:px-12">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={containerVariants}
           className="max-w-6xl mx-auto"
         >
           <SectionTitle title="Get In Touch" />
           
-          <motion.div variants={itemVariants} className="text-center mb-12 md:mb-20">
+          <m.div variants={itemVariants} className="text-center mb-12 md:mb-20">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-primary mb-4 md:mb-6 font-bold tracking-tight text-gold-gradient drop-shadow-[0_0_20px_rgba(212,175,55,0.2)]">
               Let's Build Something Great
             </h2>
             <p className="text-secondary max-w-2xl mx-auto text-balance font-light text-sm md:text-lg opacity-80 leading-relaxed">
               Feel free to reach out if you're looking for a developer, have a question, or just want to connect.
             </p>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[0.8fr_1.2fr] gap-10 lg:gap-16 items-start bg-[#050505]/60 backdrop-blur-3xl border border-accent-gold/20 p-6 sm:p-8 md:p-14 rounded-2xl md:rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(212,175,55,0.15),0_0_40px_rgba(212,175,55,0.05)] relative overflow-hidden group/container transition-all duration-700 hover:shadow-[0_20px_40px_rgba(0,0,0,0.8),inset_0_1px_1px_rgba(212,175,55,0.3),0_0_60px_rgba(212,175,55,0.1)]">
             {/* Inner ambient glow */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.1),transparent_60%)] pointer-events-none mix-blend-screen transition-opacity duration-700 opacity-60 group-hover/container:opacity-100" />
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.03),transparent_40%)] pointer-events-none mix-blend-screen" />
 
-            <motion.div variants={itemVariants} className="space-y-8 md:space-y-12 relative z-30">
+            <m.div variants={itemVariants} className="space-y-8 md:space-y-12 relative z-30">
               <div>
                 <h3 className="text-xl md:text-2xl font-serif text-primary mb-6 md:mb-8 font-semibold tracking-wide">Contact Details</h3>
                 <div className="space-y-4 md:space-y-6">
@@ -90,9 +90,9 @@ export const Contact = memo(function Contact() {
                   })}
                 </div>
               </div>
-            </motion.div>
+            </m.div>
 
-            <motion.form 
+            <m.form 
               variants={itemVariants}
               className="space-y-6 md:space-y-8 relative z-30"
               onSubmit={(e) => e.preventDefault()}
@@ -149,9 +149,9 @@ export const Contact = memo(function Contact() {
                   <Send size={16} className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
                 </MagneticButton>
               </div>
-            </motion.form>
+            </m.form>
           </div>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

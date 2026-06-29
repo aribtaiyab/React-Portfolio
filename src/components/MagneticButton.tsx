@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 export function MagneticButton({ 
   children, 
@@ -34,13 +34,13 @@ export function MagneticButton({
   };
 
   const buttonContent = (
-    <motion.span
+    <m.span
       animate={{ x: position.x, y: position.y }}
       transition={{ type: "tween", ease: "easeOut", duration: 0.3 }}
       className="flex items-center gap-2 justify-center w-full h-full relative z-10"
     >
       {children}
-    </motion.span>
+    </m.span>
   );
 
   const baseClasses = "relative overflow-hidden group rounded-full font-semibold transition-all duration-500 select-none py-3.5 px-9 text-sm will-change-transform";
@@ -53,7 +53,7 @@ export function MagneticButton({
 
   if (href) {
     return (
-      <motion.a
+      <m.a
         ref={ref as any}
         href={href}
         onMouseMove={handleMouseMove}
@@ -65,12 +65,12 @@ export function MagneticButton({
         {/* Light Sweep Overlay */}
         <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-light-sweep" style={{ animationDuration: '1.5s' }} />
         {buttonContent}
-      </motion.a>
+      </m.a>
     );
   }
 
   return (
-    <motion.button
+    <m.button
       ref={ref as any}
       type={type}
       onMouseMove={handleMouseMove}
@@ -81,6 +81,6 @@ export function MagneticButton({
       {/* Light Sweep Overlay */}
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-light-sweep" style={{ animationDuration: '1.5s' }} />
       {buttonContent}
-    </motion.button>
+    </m.button>
   );
 }

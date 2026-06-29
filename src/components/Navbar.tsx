@@ -1,5 +1,5 @@
-import { memo, useCallback, useEffect, useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { memo, useCallback, useEffect, useState, useRef } from 'react';
+import { AnimatePresence, m } from 'framer-motion';
 import { cn } from '../utils/cn';
 
 const navLinks = [
@@ -15,49 +15,137 @@ export const Navbar = memo(function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('');
 
-  const closeMenu = useCallback(() => setIsMobileMenuOpen(false), []);
+  const navRef = useRef<HTMLElement>(null);
+  const [underlineStyle, setUnderlineStyle] = useState({ left: 0, width: 0, opacity: 0 });
 
   useEffect(() => {
-    let ticking = false;
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setIsScrolled(window.scrollY > 20);
+    const updateUnderline = () => {
+      if (!activeHash || !navRef.current) {
+        setUnderlineStyle(prev => ({ ...prev, opacity: 0 }));
+        return;
+      }
+
+      const activeItem = navRef.current.querySelector(`a[href="${activeHash}"]`) as HTMLElement;
+      if (activeItem) {
+        const textSpan = activeItem.querySelector('.nav-text') as HTMLElement;
+        if (textSpan) {
+          const navRect = navRef.current.getBoundingClientRect();
+          const textRect = textSpan.getBoundingClientRect();
           
-          const sections = navLinks.map(link => link.href.substring(1));
-          let current = '';
-          for (const section of sections) {
-            const element = document.getElementById(section);
-            if (element) {
-              const rect = element.getBoundingClientRect();
-              if (rect.top <= 150 && rect.bottom >= 150) {
-                current = `#${section}`;
-                break;
-              }
-            }
-          }
-          if (current !== activeHash) {
-             setActiveHash(current);
-          }
-          ticking = false;
-        });
-        ticking = true;
+          setUnderlineStyle({
+            left: textRect.left - navRect.left,
+            width: textRect.width,
+            opacity: 1
+          });
+        }
+      } else {
+        setUnderlineStyle(prev => ({ ...prev, opacity: 0 }));
       }
     };
 
+    updateUnderline();
+    const rafId = requestAnimationFrame(updateUnderline);
+    window.addEventListener('resize', updateUnderline);
+    
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener('resize', updateUnderline);
+    };
+  }, [activeHash]);
+
+  const closeMenu = useCallback(() => setIsMobileMenuOpen(false), []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    const handleHashChange = () => setActiveHash(window.location.hash);
-    window.addEventListener('hashchange', handleHashChange);
-    
     handleScroll();
-    handleHashChange();
+
+    const sectionIds = navLinks.map(link => link.href.substring(1));
+    const visibleSections = new Map<string, IntersectionObserverEntry>();
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            visibleSections.set(entry.target.id, entry);
+          } else {
+            visibleSections.delete(entry.target.id);
+          }
+        });
+
+        // Handle bottom of page
+        if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50) {
+          if (navLinks.length > 0) {
+            setActiveHash(navLinks[navLinks.length - 1].href);
+          }
+          return;
+        }
+
+        let maxVisibleHeight = 0;
+        let mostVisibleId = '';
+        
+        visibleSections.forEach((entry, id) => {
+          const visibleHeight = entry.intersectionRect.height;
+          if (visibleHeight > maxVisibleHeight) {
+            maxVisibleHeight = visibleHeight;
+            mostVisibleId = id;
+          }
+        });
+
+        if (mostVisibleId) {
+          setActiveHash(`#${mostVisibleId}`);
+        } else if (window.scrollY < 200) {
+           // At the very top (Hero section), clear active hash
+           setActiveHash('');
+        }
+      },
+      {
+        threshold: Array.from({ length: 20 }, (_, i) => i * 0.05),
+        rootMargin: '-96px 0px 0px 0px' // Offset for fixed navbar height (approx 6rem)
+      }
+    );
+
+    // Use setTimeout to ensure DOM is fully rendered before observing
+    const timeoutId = setTimeout(() => {
+      sectionIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) observer.observe(element);
+      });
+    }, 100);
+
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        setActiveHash(window.location.hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHashChange);
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('hashchange', handleHashChange);
+      observer.disconnect();
+      clearTimeout(timeoutId);
     }
-  }, [activeHash]);
+  }, []);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const targetId = href.substring(1);
+    const element = document.getElementById(targetId);
+    
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      window.history.pushState(null, '', href);
+      setActiveHash(href);
+      
+      if (isMobileMenuOpen) {
+        closeMenu();
+      }
+    }
+  };
 
   useEffect(() => {
     const isOpen = isMobileMenuOpen;
@@ -80,7 +168,7 @@ export const Navbar = memo(function Navbar() {
   }, [closeMenu, isMobileMenuOpen]);
 
   return (
-    <motion.header
+    <m.header
       initial={{ y: -80, x: '-50%', opacity: 0 }}
       animate={{ y: 0, x: '-50%', opacity: 1 }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
@@ -118,31 +206,39 @@ export const Navbar = memo(function Navbar() {
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-shine-slow pointer-events-none mix-blend-overlay" />
         </a>
 
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav ref={navRef} className="relative hidden items-center gap-10 md:flex">
+          {/* Shared Active Underline */}
+          <div 
+            className="absolute bottom-0 h-[2px] bg-[#D4AF37] rounded-full pointer-events-none"
+            style={{
+              left: `${underlineStyle.left}px`,
+              width: `${underlineStyle.width}px`,
+              opacity: underlineStyle.opacity,
+              boxShadow: '0 0 10px rgba(212,175,55,0.5)',
+              transition: 'transform 300ms ease, left 300ms ease, width 300ms ease, opacity 300ms ease'
+            }}
+          />
+
           {navLinks.map((link) => {
             const isActive = activeHash === link.href;
             return (
               <a
                 key={link.name}
                 href={link.href}
+                onClick={(e) => handleLinkClick(e, link.href)}
+                aria-current={isActive ? 'page' : undefined}
                 className={cn(
-                  "group relative py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-all duration-300 hover:-translate-y-[2px] outline-none",
-                  isActive ? "text-accent-gold drop-shadow-[0_0_12px_rgba(212,175,55,0.8)]" : "text-[#E0E0E0] hover:text-accent-gold"
+                  "group relative py-2 text-[11px] font-semibold uppercase tracking-[0.25em] transition-all duration-300 ease-in-out hover:-translate-y-[2px] outline-none flex items-center justify-center",
+                  isActive ? "text-[#D4AF37] brightness-110" : "text-[#E0E0E0] hover:text-[#D4AF37]"
                 )}
               >
-                <span className="relative z-10 group-hover:drop-shadow-[0_0_10px_rgba(212,175,55,0.6)] transition-all duration-300">{link.name}</span>
-                
-                {/* Hover/Active Underline */}
                 <span className={cn(
-                  "absolute bottom-0 left-1/2 h-[1px] -translate-x-1/2 bg-gradient-to-r from-transparent via-accent-gold to-transparent transition-all duration-300 ease-out shadow-[0_0_8px_rgba(212,175,55,0.9)]",
-                  isActive ? "w-[120%] opacity-100" : "w-0 opacity-0 group-hover:w-[120%] group-hover:opacity-100"
-                )} />
+                  "nav-text relative z-10 transition-all duration-300 ease-in-out",
+                  isActive ? "" : "group-hover:drop-shadow-[0_0_10px_rgba(212,175,55,0.6)]"
+                )}>{link.name}</span>
                 
-                {/* Active Glow behind text */}
-                <span className={cn(
-                  "absolute inset-0 bg-accent-gold/10 blur-md rounded-full transition-opacity duration-300 pointer-events-none",
-                  isActive ? "opacity-100" : "opacity-0 group-hover:opacity-50"
-                )} />
+                {/* Independent Hover Underline */}
+                <span className="absolute bottom-0 left-1/2 h-[1px] w-0 -translate-x-1/2 bg-gradient-to-r from-transparent via-accent-gold to-transparent opacity-0 transition-all duration-300 ease-out group-hover:w-[120%] group-hover:opacity-100 shadow-[0_0_8px_rgba(212,175,55,0.9)]" />
               </a>
             );
           })}
@@ -166,7 +262,7 @@ export const Navbar = memo(function Navbar() {
 
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div
+          <m.div
             id="mobile-navigation"
             initial={{ opacity: 0, y: -10, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -184,24 +280,28 @@ export const Navbar = memo(function Navbar() {
                   <a
                     key={link.name}
                     href={link.href}
-                    onClick={closeMenu}
+                    onClick={(e) => handleLinkClick(e, link.href)}
+                    aria-current={isActive ? 'page' : undefined}
                     className={cn(
-                      "group relative flex min-h-[48px] w-full items-center justify-center gap-4 py-4 text-center text-xs font-semibold uppercase tracking-widest transition-all duration-300 outline-none",
-                      isActive ? "text-accent-gold drop-shadow-[0_0_10px_rgba(212,175,55,0.6)]" : "text-[#E0E0E0] hover:text-accent-gold"
+                      "group relative flex min-h-[48px] w-full items-center justify-center gap-4 py-4 text-center text-xs font-semibold uppercase tracking-widest transition-all duration-300 ease-in-out outline-none",
+                      isActive ? "text-accent-gold brightness-110" : "text-[#E0E0E0] hover:text-accent-gold"
                     )}
                   >
                     <span className={cn(
-                      "h-1.5 w-1.5 rounded-full transition-all duration-300 shadow-[0_0_8px_#D4AF37]",
+                      "h-1.5 w-1.5 rounded-full transition-all duration-300 ease-in-out shadow-[0_0_8px_#D4AF37]",
                       isActive ? "bg-accent-gold opacity-100 scale-125" : "bg-accent-gold opacity-0 group-hover:opacity-100"
                     )} />
-                    {link.name}
+                    <span className={cn(
+                      "relative z-10 transition-all duration-300 ease-in-out",
+                      isActive ? "drop-shadow-[0_0_8px_rgba(212,175,55,0.6)]" : "group-hover:drop-shadow-[0_0_10px_rgba(212,175,55,0.6)]"
+                    )}>{link.name}</span>
                   </a>
                 );
               })}
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </m.header>
   );
 });

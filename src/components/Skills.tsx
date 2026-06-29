@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Code2, MonitorSmartphone, DatabaseZap, Wrench, Database } from 'lucide-react';
 
 const containerVariants = {
@@ -98,14 +98,14 @@ export const Skills = memo(function Skills() {
       </div>
 
       <div className="container relative z-10 mx-auto px-6 md:px-12 max-w-[1440px]">
-        <motion.div
+        <m.div
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
           variants={containerVariants}
         >
           {/* Custom Premium Section Title */}
-          <motion.div 
+          <m.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -121,11 +121,11 @@ export const Skills = memo(function Skills() {
               Technical Skills
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shine_10s_ease-in-out_infinite] pointer-events-none mix-blend-overlay" style={{ WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }} />
             </h2>
-          </motion.div>
+          </m.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {skillCategories.map((category, idx) => (
-              <motion.div 
+              <m.div 
                 key={idx}
                 variants={cardVariants}
                 className="group/card relative h-full rounded-[22px] border border-white/[0.04] bg-[#0A0A0C]/90 backdrop-blur-3xl p-6 md:p-8 shadow-[0_10px_30px_rgba(0,0,0,0.6),inset_0_1px_1px_rgba(255,255,255,0.05)] overflow-hidden flex flex-col transition-all duration-[350ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-2 hover:scale-[1.02] hover:rotate-[1deg] hover:border-accent-gold/40 hover:shadow-[0_20px_50px_rgba(212,175,55,0.15),inset_0_1px_1px_rgba(255,255,255,0.1)]"
@@ -174,6 +174,7 @@ export const Skills = memo(function Skills() {
                             src={skill.customUrl || `https://cdn.simpleicons.org/${skill.icon}/A1A1AA`} 
                             alt={skill.name} 
                             loading="lazy" 
+                            decoding="async"
                             className={`w-full h-full object-contain transition-all duration-[300ms] group-hover/skill:drop-shadow-[0_0_8px_rgba(212,175,55,0.6)] ${skill.customUrl ? 'opacity-80 group-hover/skill:opacity-100' : 'group-hover/skill:brightness-200'}`}
                           />
                         )}
@@ -188,10 +189,10 @@ export const Skills = memo(function Skills() {
                     </div>
                   ))}
                 </div>
-              </motion.div>
+              </m.div>
             ))}
           </div>
-        </motion.div>
+        </m.div>
       </div>
 
       {/* Visual Connector to next section */}
