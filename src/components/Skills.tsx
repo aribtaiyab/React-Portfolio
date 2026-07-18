@@ -41,7 +41,7 @@ const skillCategories: SkillCategory[] = [
     title: "Programming",
     Icon: Code2,
     skills: [
-      { name: "C", icon: "c" },
+      { name: "Java", icon: "java", customUrl: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" },
       { name: "C++", icon: "cplusplus" },
       { name: "Python", icon: "python" },
       { name: "JavaScript", icon: "javascript" }
