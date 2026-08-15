@@ -7,14 +7,16 @@ export function MagneticButton({
   href, 
   type = "button", 
   onClick,
-  variant = "primary"
+  variant = "primary",
+  target
 }: { 
   children: React.ReactNode, 
   className?: string, 
   href?: string, 
   type?: "button" | "submit" | "reset", 
   onClick?: (e: React.MouseEvent) => void,
-  variant?: "primary" | "secondary"
+  variant?: "primary" | "secondary",
+  target?: string
 }) {
   const ref = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -56,6 +58,8 @@ export function MagneticButton({
       <m.a
         ref={ref as any}
         href={href}
+        target={target}
+        rel={target === "_blank" ? "noopener noreferrer" : undefined}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
         className={classes}

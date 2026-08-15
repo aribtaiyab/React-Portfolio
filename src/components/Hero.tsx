@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { m, useScroll, useTransform } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, FileText } from 'lucide-react';
 import { MagneticButton } from './MagneticButton';
 import heropageImg from './heropage.png';
 
@@ -92,6 +92,19 @@ export const Hero = memo(function Hero() {
                 <span className="relative z-10 flex items-center font-bold tracking-widest text-[14px]">
                   View Projects
                   <ArrowRight size={18} className="ml-2 transition-transform duration-500 group-hover/btn:translate-x-1.5" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-gold/20 to-transparent -translate-x-full group-hover/btn:animate-[shine_1.5s_ease-in-out] pointer-events-none mix-blend-screen" />
+              </MagneticButton>
+
+              <MagneticButton 
+                href="/resume.pdf"
+                target="_blank"
+                variant="primary" 
+                className="!bg-none !bg-[#0B0B0D]/90 backdrop-blur-md !border !border-accent-gold/40 !text-accent-gold hover:!text-[#F3E5AB] hover:!border-accent-gold !shadow-[0_8px_20px_rgba(212,175,55,0.2),inset_0_1px_1px_rgba(255,255,255,0.1)] hover:!shadow-[0_15px_30px_rgba(212,175,55,0.3),inset_0_1px_1px_rgba(255,255,255,0.2)] active:scale-95 transition-all duration-500 flex w-full justify-center sm:w-auto group/btn overflow-hidden"
+              >
+                <span className="relative z-10 flex items-center font-bold tracking-widest text-[14px]">
+                  View Resume
+                  <FileText size={18} className="ml-2 transition-transform duration-500 group-hover/btn:-translate-y-1" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-accent-gold/20 to-transparent -translate-x-full group-hover/btn:animate-[shine_1.5s_ease-in-out] pointer-events-none mix-blend-screen" />
               </MagneticButton>

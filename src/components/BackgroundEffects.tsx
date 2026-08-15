@@ -6,34 +6,60 @@ export function BackgroundEffects() {
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    let raf: number;
+    let raf = 0;
     let cx = 0, cy = 0, tx = 0, ty = 0;
     let isScrolling = false;
     let scrollTimeout: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      if (isScrolling) return;
+      
+      const dx = tx - cx;
+      const dy = ty - cy;
+      
+      if (Math.abs(dx) > 0.05 || Math.abs(dy) > 0.05) {
+        cx += dx * 0.05;
+        cy += dy * 0.05;
+        if (parallaxRef.current) {
+          parallaxRef.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+        }
+        raf = requestAnimationFrame(tick);
+      } else {
+        // Snap and stop loop to save battery/CPU
+        cx = tx;
+        cy = ty;
+        if (parallaxRef.current) {
+          parallaxRef.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+        }
+        raf = 0;
+      }
+    };
 
     const onMove = (e: MouseEvent) => {
       if (isScrolling) return;
       tx = (e.clientX / window.innerWidth - 0.5) * 10;
       ty = (e.clientY / window.innerHeight - 0.5) * 10;
+      
+      if (!raf) {
+        raf = requestAnimationFrame(tick);
+      }
     };
 
     const onScroll = () => {
-      isScrolling = true;
+      if (!isScrolling) {
+        isScrolling = true;
+        if (raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      }
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(() => {
         isScrolling = false;
-      }, 150);
-    };
-
-    const tick = () => {
-      if (!isScrolling) {
-        cx += (tx - cx) * 0.05; 
-        cy += (ty - cy) * 0.05;
-        if (parallaxRef.current) {
-          parallaxRef.current.style.transform = `translate3d(${cx}px, ${cy}px, 0)`;
+        if (!raf) {
+          raf = requestAnimationFrame(tick);
         }
-      }
-      raf = requestAnimationFrame(tick);
+      }, 150);
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });
@@ -43,7 +69,7 @@ export function BackgroundEffects() {
     return () => {
       window.removeEventListener('mousemove', onMove);
       window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       clearTimeout(scrollTimeout);
     };
   }, []);

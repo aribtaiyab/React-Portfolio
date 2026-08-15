@@ -31,7 +31,7 @@ const projects: ProjectCard[] = [
     tech: ["React.js", "Tailwind CSS", "Supabase", "Groq API", "Chrome Extension API"],
     image: accessai,
     github: "https://github.com/aribtaiyab/ACCESSAI",
-    live: "#",
+    live: "https://accessai-frontend.vercel.app/",
     glow: "rgba(212, 175, 55, 0.08)",
     borderColor: "border-[#D4AF37]/30",
     hoverBorder: "group-hover:border-[#D4AF37]/60 group-hover:-translate-y-1",
