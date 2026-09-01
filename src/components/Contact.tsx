@@ -54,10 +54,19 @@ export const Contact = memo(function Contact() {
         body: JSON.stringify(formData),
       });
       
-      const data = await response.json();
+      let data: { success?: boolean; message?: string } | null = null;
+      try {
+        const text = await response.text();
+        if (text) {
+          data = JSON.parse(text);
+        }
+      } catch {
+        // Safely ignore JSON parse errors if response was text/HTML
+      }
 
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to send message');
+      if (!response.ok || !data?.success) {
+        const errorMsg = data?.message || 'Unable to send your message right now. Please try again.';
+        throw new Error(errorMsg);
       }
 
       setStatus('success');
@@ -66,7 +75,7 @@ export const Contact = memo(function Contact() {
     } catch (error) {
       console.error('Submission error:', error);
       setStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your message. Please try again.');
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your message right now. Please try again.');
     }
   };
 
