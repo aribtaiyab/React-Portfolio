@@ -8,7 +8,8 @@ export function MagneticButton({
   type = "button", 
   onClick,
   variant = "primary",
-  target
+  target,
+  disabled
 }: { 
   children: React.ReactNode, 
   className?: string, 
@@ -16,7 +17,8 @@ export function MagneticButton({
   type?: "button" | "submit" | "reset", 
   onClick?: (e: React.MouseEvent) => void,
   variant?: "primary" | "secondary",
-  target?: string
+  target?: string,
+  disabled?: boolean
 }) {
   const ref = useRef<HTMLButtonElement | HTMLAnchorElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -81,6 +83,7 @@ export function MagneticButton({
       onMouseLeave={handleMouseLeave}
       className={classes}
       onClick={onClick}
+      disabled={disabled}
     >
       {/* Light Sweep Overlay */}
       <div className="absolute inset-0 z-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-light-sweep" style={{ animationDuration: '1.5s' }} />

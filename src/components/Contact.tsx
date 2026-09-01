@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
 import { m } from 'framer-motion';
 import { Send, Mail } from 'lucide-react';
 import { FaLinkedin as Linkedin, FaGithub as Github, FaInstagram as Instagram } from 'react-icons/fa6';
@@ -33,6 +33,43 @@ const socialLinks = [
 ];
 
 export const Contact = memo(function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (status === 'loading') return;
+    setStatus('loading');
+    setErrorMessage('');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send message');
+      }
+
+      setStatus('success');
+      setFormData({ name: '', email: '', subject: '', message: '' });
+      setTimeout(() => setStatus('idle'), 5000);
+    } catch (error) {
+      console.error('Submission error:', error);
+      setStatus('error');
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your message. Please try again.');
+    }
+  };
+
   return (
     <section id="contact" className="py-16 md:py-20 lg:py-24 relative border-t border-white/5 bg-background overflow-hidden">
       {/* Background ambient lighting */}
@@ -48,7 +85,7 @@ export const Contact = memo(function Contact() {
           className="max-w-6xl mx-auto"
         >
           <SectionTitle title="Get In Touch" />
-          
+
           <m.div variants={itemVariants} className="text-center mb-12 md:mb-20">
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-serif text-primary mb-4 md:mb-6 font-bold tracking-tight text-gold-gradient drop-shadow-[0_0_20px_rgba(212,175,55,0.2)]">
               Let's Build Something Great
@@ -70,16 +107,16 @@ export const Contact = memo(function Contact() {
                   {socialLinks.map((link, idx) => {
                     const Icon = link.icon;
                     return (
-                      <a 
-                        key={idx} 
-                        href={link.url} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
+                      <a
+                        key={idx}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="flex items-center gap-4 md:gap-5 text-secondary hover:text-accent-gold transition-all duration-500 group/link p-3 md:p-4 rounded-xl bg-white/[0.01] hover:bg-white/[0.03] border border-white/5 hover:border-accent-gold/30 hover:shadow-[0_10px_30px_rgba(212,175,55,0.1),inset_0_0_0_1px_rgba(212,175,55,0.1)] hover:-translate-y-1 relative overflow-hidden"
                       >
                         {/* Shimmer effect */}
                         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent -translate-x-full group-hover/link:animate-shine pointer-events-none" />
-                        
+
                         <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#050505]/80 backdrop-blur-md border border-white/10 group-hover/link:border-accent-gold/50 flex items-center justify-center transition-all duration-500 group-hover/link:shadow-[0_0_20px_rgba(212,175,55,0.4)] group-hover/link:scale-110 relative z-10">
                           <div className="absolute inset-0 rounded-full bg-accent-gold/10 opacity-0 group-hover/link:opacity-100 transition-opacity duration-500 blur-md" />
                           <Icon size={18} className="md:w-6 md:h-6 drop-shadow-[0_0_8px_rgba(255,255,255,0.2)] group-hover/link:drop-shadow-[0_0_12px_rgba(212,175,55,0.5)] transition-all duration-500 relative z-10" />
@@ -92,61 +129,98 @@ export const Contact = memo(function Contact() {
               </div>
             </m.div>
 
-            <m.form 
+            <m.form
               variants={itemVariants}
               className="space-y-6 md:space-y-8 relative z-30"
-              onSubmit={(e) => e.preventDefault()}
+              onSubmit={handleSubmit}
             >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8">
                 <div className="space-y-2 md:space-y-3 group/input relative">
                   <label htmlFor="name" className="text-[10px] md:text-[11px] font-bold text-secondary uppercase tracking-widest ml-1 group-focus-within/input:text-accent-gold transition-colors duration-300">Name</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40"
-                    placeholder="Arib Taiyab"
+                  <input
+                    type="text"
+                    id="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    disabled={status === 'loading'}
+                    className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40 disabled:opacity-50"
+                    placeholder="Enter Name"
                   />
                 </div>
-                
+
                 <div className="space-y-2 md:space-y-3 group/input relative">
                   <label htmlFor="email" className="text-[10px] md:text-[11px] font-bold text-secondary uppercase tracking-widest ml-1 group-focus-within/input:text-accent-gold transition-colors duration-300">Email</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40"
-                    placeholder="aribtayab@gmail.com"
+                  <input
+                    type="email"
+                    id="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    disabled={status === 'loading'}
+                    className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40 disabled:opacity-50"
+                    placeholder="Enter Email"
                   />
                 </div>
               </div>
-              
+
               <div className="space-y-2 md:space-y-3 group/input relative">
                 <label htmlFor="subject" className="text-[10px] md:text-[11px] font-bold text-secondary uppercase tracking-widest ml-1 group-focus-within/input:text-accent-gold transition-colors duration-300">Subject</label>
-                <input 
-                  type="text" 
-                  id="subject" 
-                  className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40"
+                <input
+                  type="text"
+                  id="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  required
+                  disabled={status === 'loading'}
+                  className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light hover:bg-[#050505]/60 hover:border-accent-gold/40 disabled:opacity-50"
                   placeholder="How can I help you?"
                 />
               </div>
 
               <div className="space-y-2 md:space-y-3 group/input relative">
                 <label htmlFor="message" className="text-[10px] md:text-[11px] font-bold text-secondary uppercase tracking-widest ml-1 group-focus-within/input:text-accent-gold transition-colors duration-300">Message</label>
-                <textarea 
-                  id="message" 
+                <textarea
+                  id="message"
                   rows={4}
-                  className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light resize-none hover:bg-[#050505]/60 hover:border-accent-gold/40"
+                  value={formData.message}
+                  onChange={handleChange}
+                  required
+                  disabled={status === 'loading'}
+                  className="w-full bg-[#050505]/40 backdrop-blur-md border border-accent-gold/20 rounded-xl px-5 py-4 text-primary text-sm focus:outline-none focus:border-accent-gold/60 focus:ring-1 focus:ring-accent-gold/50 focus:shadow-[0_0_20px_rgba(212,175,55,0.15)] transition-all duration-500 placeholder:text-secondary/40 font-light resize-none hover:bg-[#050505]/60 hover:border-accent-gold/40 disabled:opacity-50"
                   placeholder="Your message here..."
                 />
               </div>
 
+              {status === 'success' && (
+                <m.div 
+                  initial={{ opacity: 0, y: 10 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  className="text-green-400 text-sm md:text-base font-medium p-4 bg-green-500/10 border border-green-500/20 rounded-xl"
+                >
+                  Message sent successfully!
+                </m.div>
+              )}
+              
+              {status === 'error' && (
+                <m.div 
+                  initial={{ opacity: 0, y: 10 }} 
+                  animate={{ opacity: 1, y: 0 }} 
+                  className="text-red-400 text-sm md:text-base font-medium p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+                >
+                  {errorMessage || 'Unable to send your message. Please try again.'}
+                </m.div>
+              )}
+
               <div className="pt-4 md:pt-6 flex justify-end">
-                <MagneticButton 
+                <MagneticButton
                   type="submit"
                   variant="primary"
-                  className="w-full sm:w-auto min-w-0 sm:min-w-[200px] shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:scale-[1.02] transition-all duration-300"
+                  disabled={status === 'loading'}
+                  className="w-full sm:w-auto min-w-0 sm:min-w-[200px] shadow-[0_0_20px_rgba(212,175,55,0.3)] hover:shadow-[0_0_30px_rgba(212,175,55,0.6)] hover:scale-[1.02] transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                  Send Message
-                  <Send size={16} className="ml-2 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                  {status === 'loading' ? 'Sending...' : 'Send Message'}
+                  <Send size={16} className={`ml-2 transition-transform ${status === 'loading' ? 'opacity-50' : 'group-hover:translate-x-1 group-hover:-translate-y-1'}`} />
                 </MagneticButton>
               </div>
             </m.form>
